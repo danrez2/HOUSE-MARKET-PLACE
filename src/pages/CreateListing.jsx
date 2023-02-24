@@ -3,6 +3,7 @@ import {getAuth, onAuthStateChanged} from 'firebase/auth'
 import {useNavigate} from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Spinner from '../components/Spinner'
+import React from 'react';
 function CreateListing() {
     const [geolocationEnabled, setGeolocationEnabled] = useState(true)
     const [loading, setLoading] = useState(false)
@@ -67,7 +68,7 @@ function CreateListing() {
         toast.error('discounted price needs to be less than regular price')
         return
       }
-      if(images.leagth > 6){
+      if(images.length> 6){
         setLoading(false)
         toast.error('max 6 images')
         return
@@ -112,10 +113,12 @@ function CreateListing() {
 
       //Text/Boolean/Numbers
       if(!e.target.files){
-        setFormData((prevState) => ({
-          ...prevState,
-          [e.target.id]: boolean ?? e.target.value
-        }))
+        setFormData(function (prevState) {
+          return {
+            ...prevState,
+            [e.target.id]: e.target.value || false,
+          };
+        });
       }
 
     }
